@@ -1,8 +1,20 @@
 body {
-  width: 300px;
+  width: 375px;
   height: 400px;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
+}
+
+img {
+  border-radius: 5%;
+}
+
+.nft {
+  margin: 12px;
+}
+
+.addressform {
+  margin: 12px;
 }

@@ -12,9 +12,8 @@ class NFTCollection extends React.Component {
       <div className="nft-collection">
         {nftCollections.map((nftData, i) => (
           <div>
-            <h3>{nftData.name}</h3>
             {nftData.nfts.map((nft, i) => (
-              <NFT data={nft} key={i} />
+              <NFT data={nft} contractName={nftData.name} key={i} />
             ))}
           </div>
         ))}

@@ -1,3 +1,5 @@
+/* global chrome  */
+
 import React from "react";
 import axios from "axios";
 import NFTCollection from "./NFTCollection.js";
@@ -6,20 +8,43 @@ class AddressForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      address: "",
       nftData: undefined,
     };
-    this.fetchAssets = this.fetchAssets.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  fetchAssets(event) {
+  componentDidMount() {
+    this.getTasks();
+  }
+
+  getTasks() {
+    chrome.storage.sync.get("address", (results) => {
+      if (results.address) {
+        this.setState({
+          address: results.address,
+        });
+      }
+    });
+  }
+
+  handleSubmit(event) {
     event.preventDefault();
     const address = event.target.elements.address.value;
+    this.setState({
+      address,
+    });
+    this.fetchAssets(address);
+  }
+
+  fetchAssets(address) {
     axios
       .get(`https://mynft-api.herokuapp.com/assets/${address}`)
       .then((response) => {
         this.setState({
           nftData: response.data,
         });
+        this.setWalletAddress();
         return response.data;
       })
       .catch((error) => {
@@ -27,20 +52,30 @@ class AddressForm extends React.Component {
       });
   }
 
+  setWalletAddress() {
+    chrome.storage.sync.set({ address: this.state.address });
+  }
+
   render() {
+    if (this.state.address != null) {
+      this.fetchAssets(this.state.address);
+    }
     return (
       <div>
-        <form onSubmit={this.fetchAssets}>
-          <label htmlFor="address">Wallet Address</label>
+        <form onSubmit={this.fetchAssets} className="addressform">
+          <label className="h3" htmlFor="address">
+            Wallet Address
+          </label>
           <br />
           <input
             type="text"
             id="address"
             name="address"
-            defaultValue="0xedc3eb734f9d433f3ce1f5a4a0270f7054661063"
+            className="form-control mb-2"
+            defaultValue={this.state.address}
+            placeholder="Enter ETH Address"
           />
-          <br />
-          <input type="submit" value="Submit" />
+          <input className="btn btn-primary" type="submit" value="Submit" />
         </form>
         <NFTCollection data={this.state.nftData} />
       </div>
