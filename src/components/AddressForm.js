@@ -9,60 +9,79 @@ class AddressForm extends React.Component {
     super(props);
     this.state = {
       address: "",
+      showLoading: false,
       nftData: undefined,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    this.getTasks();
+    this.fetchStoredAddress();
   }
 
-  getTasks() {
+  fetchStoredAddress() {
     chrome.storage.sync.get("address", (results) => {
-      if (results.address) {
-        this.setState({
-          address: results.address,
-        });
+      const address = results.address;
+      if (address) {
+        const isLoading = this.state.showLoading;
+        if (
+          !isLoading &&
+          address !== null &&
+          address !== "" &&
+          address !== undefined
+        ) {
+          this.fetchAssets(address);
+        }
+        return results.address;
       }
-    });
+    })
   }
 
   handleSubmit(event) {
     event.preventDefault();
     const address = event.target.elements.address.value;
-    this.setState({
-      address,
-    });
     this.fetchAssets(address);
   }
 
   fetchAssets(address) {
+    this.setState({
+      showLoading: true,
+      nftData: undefined,
+    });
     axios
       .get(`https://mynft-api.herokuapp.com/assets/${address}`)
       .then((response) => {
         this.setState({
-          nftData: response.data,
+          nftData: response.data
         });
-        this.setWalletAddress();
         return response.data;
       })
       .catch((error) => {
+        this.setState({
+          nftData: undefined
+        });
         console.log(error);
+      }).finally(f => {
+        this.storeWalletAddress(address);
+        this.setState({
+          showLoading: false
+        })
       });
   }
 
-  setWalletAddress() {
-    chrome.storage.sync.set({ address: this.state.address });
+  storeWalletAddress(address) {
+    if (address !== this.state.address) {
+      this.setState({
+        address,
+      });
+      chrome.storage.sync.set({ address });
+    }
   }
 
   render() {
-    if (this.state.address != null) {
-      this.fetchAssets(this.state.address);
-    }
     return (
       <div>
-        <form onSubmit={this.fetchAssets} className="addressform">
+        <form onSubmit={this.handleSubmit} className="addressform">
           <label className="h3" htmlFor="address">
             Wallet Address
           </label>
@@ -77,6 +96,18 @@ class AddressForm extends React.Component {
           />
           <input className="btn btn-primary" type="submit" value="Submit" />
         </form>
+        <div className={"d-flex justify-content-center"}>
+          <div
+            className={
+              "spinner-border" + this.state.showLoading
+                ? "visible"
+                : "invisible"
+            }
+            role="status"
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
         <NFTCollection data={this.state.nftData} />
       </div>
     );
