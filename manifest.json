@@ -1,6 +1,6 @@
 {
   "name": "MyNFTs",
-  "description": "MyNFTs display the NFT collection of an Ethereum Address. You can easily view your current collection with a click of a button. The data is provided by OpenSea.io API",
+  "description": "MyNFTs display the NFT collection of an Ethereum Address. The data is provided by OpenSea.io API",
   "version": "1.0",
   "manifest_version": 3,
   "permissions": [
