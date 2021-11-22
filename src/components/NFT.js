@@ -11,7 +11,9 @@ class NFT extends React.Component {
 
     return (
       <div className="nft">
-        <h5>{nft.name}</h5>
+        <a href={permaLink} target="_blank" rel="noreferrer" className="text-decoration-none font-weight-bold">
+          <p className="text-dark">{nft.name}</p>
+        </a>
         <a href={permaLink} target="_blank" rel="noreferrer">
           <img src={imageUrl} alt={nft.name} />
         </a>

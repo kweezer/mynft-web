@@ -26,6 +26,7 @@ class NFTCollection extends React.Component {
                 <NFT data={nft} contractName={nftData.name} key={i} />
               ))}
             </div>
+            <hr/>
           </div>
         ))}
       </div>
