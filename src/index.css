@@ -7,6 +7,10 @@ body {
     sans-serif;
 }
 
+.contract-name {
+  margin-left: 15%;
+}
+
 img {
   border-radius: 5%;
 }
