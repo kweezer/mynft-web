@@ -1,6 +1,6 @@
 {
-  "short_name": "MyNFT",
-  "name": "MyNFT Chrome Extension",
+  "short_name": "MyNFTs",
+  "name": "MyNFTs Chrome Extension",
   "icons": [],
   "start_url": ".",
   "display": "standalone",
