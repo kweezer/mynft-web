@@ -3,6 +3,7 @@
 import React from "react";
 import axios from "axios";
 import NFTCollection from "./NFTCollection.js";
+import localAddress from "../Localhost.js"
 
 class AddressForm extends React.Component {
   constructor(props) {
@@ -20,21 +21,25 @@ class AddressForm extends React.Component {
   }
 
   fetchStoredAddress() {
-    chrome.storage.sync.get("address", (results) => {
-      const address = results.address;
-      if (address) {
-        const isLoading = this.state.showLoading;
-        if (
-          !isLoading &&
-          address !== null &&
-          address !== "" &&
-          address !== undefined
-        ) {
-          this.fetchAssets(address);
+    if (window.location.hostname === 'localhost') {
+      this.fetchAssets(localAddress)
+    } else {
+      chrome.storage.sync.get("address", (results) => {
+        const address = results.address;
+        if (address) {
+          const isLoading = this.state.showLoading;
+          if (
+            !isLoading &&
+            address !== null &&
+            address !== "" &&
+            address !== undefined
+          ) {
+            this.fetchAssets(address);
+          }
+          return results.address;
         }
-        return results.address;
-      }
-    })
+      })
+    }
   }
 
   handleSubmit(event) {
@@ -70,7 +75,11 @@ class AddressForm extends React.Component {
   }
 
   storeWalletAddress(address) {
-    if (address !== this.state.address) {
+    if (window.location.hostname === 'localhost')  {
+      this.setState({
+        address,
+      })
+    } else if (address !== this.state.address) {
       this.setState({
         address,
       });
@@ -99,9 +108,9 @@ class AddressForm extends React.Component {
         <div className={"d-flex justify-content-center"}>
           <div
             className={
-              "spinner-border" + this.state.showLoading
+              `spinner-border ${this.state.showLoading
                 ? "visible"
-                : "invisible"
+                : "invisible"}`
             }
             role="status"
           >

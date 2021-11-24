@@ -4,9 +4,7 @@
   "version": "1.0",
   "manifest_version": 3,
   "permissions": [
-    "storage",
-    "activeTab",
-    "scripting"
+    "storage"
   ],
   "action": {
     "default_popup": "/build/index.html",
