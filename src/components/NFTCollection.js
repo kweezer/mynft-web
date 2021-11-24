@@ -11,13 +11,14 @@ class NFTCollection extends React.Component {
       <div className="nft-collection">
         {nftCollections.map((nftData, i) => (
           <div>
-            <div className="contract-name text-start">
+            <div className="contract-title text-start">
               <a
                 href={nftData.contractUrl}
                 className="h5 text-decoration-none"
                 target="_blank"
                 rel="noreferrer"
               >
+                <img className="contract-image me-2" src={nftData.contractImageUrl} alt={nftData.name} />
                 {nftData.name}
               </a>
             </div>
@@ -26,7 +27,7 @@ class NFTCollection extends React.Component {
                 <NFT data={nft} contractName={nftData.name} key={i} />
               ))}
             </div>
-            <hr/>
+            <hr />
           </div>
         ))}
       </div>

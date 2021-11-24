@@ -8,8 +8,14 @@ body {
   font-style: bold;
 }
 
-.contract-name {
+.contract-title {
   margin-left: 15%;
+}
+
+.contract-image {
+  height: 48px;
+  width: 48px;
+  border-radius: 10px;
 }
 
 img {
