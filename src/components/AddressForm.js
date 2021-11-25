@@ -51,7 +51,7 @@ class AddressForm extends React.Component {
   fetchAssets(address) {
     this.setState({
       showLoading: true,
-      nftData: undefined,
+      nftData: [],
     });
     axios
       .get(`https://mynft-api.herokuapp.com/assets/${address}`)

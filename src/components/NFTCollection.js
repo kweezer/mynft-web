@@ -4,8 +4,8 @@ import NFT from "./NFT.js";
 class NFTCollection extends React.Component {
   render() {
     const nftCollections = this.props.data;
-    if (nftCollections === undefined) {
-      return <div></div>;
+    if (!Array.isArray(nftCollections)) {
+      return <h5>No result found</h5>;
     }
     return (
       <div className="nft-collection">
