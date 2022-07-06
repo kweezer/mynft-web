@@ -10,7 +10,7 @@ function App() {
       <small className="feedback">
         Share your feedback&nbsp;
         <a href="https://twitter.com/ikweezer" target="_blank" rel="noreferrer">
-          @ikweezer
+          @benkwee
         </a>
       </small>
     </div>
